@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Chatbot</h2>
+        
+        <!-- Login Section -->
+        <div id="login-section">
+            <h3>Login</h3>
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <br><br>
+            <button onclick="login()">Login</button>
+            <button onclick="showRegister()">Register</button>
+        </div>
+        
+        <!-- Register Section -->
+        <div id="register-section" style="display: none;">
+            <h3>Register</h3>
+            <label for="register-username">Username:</label>
+            <input type="text" id="register-username" placeholder="Username" required>
+            <br><br>
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" placeholder="Enter your email" required>
+            <br><br>
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" placeholder="Enter your password" required>
+            <br><br>
+            <button onclick="register()">Register</button>
+            <button onclick="showLogin()">Back to Login</button>
+        </div>
+        
+        <!-- Chat Section -->
+        <div id="chat-section" style="display: none;">
+            <div class="chat-box" id="chat-box"></div>
+
+            <h1>Generated Business Questions</h1>
+            <button onclick="fetchQuestions()">Generate Questions</button>
+            <ul id="questions-list"></ul>    
+
+            <div class="input-box">
+                <input type="text" id="user-message" placeholder="Type your message..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-container">
+                <div class="table-container">
+                    <table id="result-table" style="display: none;"></table>
+                </div>
+                <div class="chart-container">
+                    <canvas id="result-chart" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

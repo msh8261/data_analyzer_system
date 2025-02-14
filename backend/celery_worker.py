@@ -25,8 +25,9 @@ REDIS_PORT = int(os.getenv("REDIS_PORT"))
 celery_app = Celery(
     "tasks",
     broker=f"redis://{REDIS_HOST}:{REDIS_PORT}/0",  # Redis message broker
-    backend=f"redis://{REDIS_HOST}:{REDIS_PORT}/0"  # Redis result backend
+    backend=f"redis://{REDIS_HOST}:{REDIS_PORT}/0",  # Redis result backend
 )
+
 
 @celery_app.task
 def long_running_task(x, y):

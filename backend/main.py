@@ -27,7 +27,7 @@ from agents import SQLAgent, error_reasoning_agent, error_fix_agent
 from backend.database import SessionLocal
 from backend.log import logger
 from dotenv import load_dotenv
-from backend.config import db_info 
+from backend.config import db_info
 
 # Load environment variables from .env file
 load_dotenv()
@@ -173,6 +173,7 @@ class AgentSystem(dspy.Module):
                     logger.error("Max retries reached, aborting.")
                     break
 
+
 async def get_sql_query(query: str):
     sql_system = AgentSystem(dataset_information=db_info, max_retry=3)
     try:
@@ -182,4 +183,3 @@ async def get_sql_query(query: str):
     except Exception as e:
         logger.error(f"Execution failed: {e}")
         raise
-

@@ -16,6 +16,7 @@ from backend.database import Base
 from backend.log import logger
 
 try:
+
     class User(Base):
         __tablename__ = "users"
 

@@ -26,9 +26,10 @@ REDIS_PORT = int(os.getenv("REDIS_PORT"))
 # Connect to Redis
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
+
 def set_cache(key: str, value: dict, expiration: int = 3600) -> None:
     """Store encrypted data in Redis cache.
-    
+
     Args:
         key (str): The key under which the data is stored.
         value (dict): The data to be stored.
@@ -41,12 +42,13 @@ def set_cache(key: str, value: dict, expiration: int = 3600) -> None:
     except Exception as e:
         logger.error(f"Error setting cache: {e}")
 
+
 def get_cache(key: str) -> dict:
     """Retrieve decrypted data from Redis cache.
-    
+
     Args:
         key (str): The key under which the data is stored.
-    
+
     Returns:
         dict: The decrypted data if found, otherwise None.
     """
@@ -61,4 +63,3 @@ def get_cache(key: str) -> dict:
     except Exception as e:
         logger.error(f"Error getting cache: {e}")
         return None
-

@@ -67,7 +67,6 @@ def get_mongo_db():
         client.close()
 
 
-
 def init_db():
     """
     initialize the database, responsible for creating the User table

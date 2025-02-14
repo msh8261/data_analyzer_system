@@ -14,8 +14,13 @@ from decimal import Decimal  # ✅ Import Decimal
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from backend.models import User, Query
-from backend.schemas import UserCreate, QueryCreate  
-from backend.auth import get_password_hash, verify_password, create_access_token, password_context 
+from backend.schemas import UserCreate, QueryCreate
+from backend.auth import (
+    get_password_hash,
+    verify_password,
+    create_access_token,
+    password_context,
+)
 from backend.schemas import UserCreate, QueryCreate
 from fastapi import HTTPException, status
 from pydantic import BaseModel, EmailStr
@@ -25,17 +30,19 @@ from backend.log import logger
 
 def create_user(user: UserCreate, db: Session) -> User:
     """Create a new user.
-    
+
     Args:
         user (UserCreate): The user data.
         db (Session): The database session.
-    
+
     Returns:
         User: The created user.
     """
     try:
         hashed_password = get_password_hash(user.password)
-        db_user = User(username=user.username, email=user.email, hashed_password=hashed_password)
+        db_user = User(
+            username=user.username, email=user.email, hashed_password=hashed_password
+        )
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -45,14 +52,15 @@ def create_user(user: UserCreate, db: Session) -> User:
         logger.error(f"Error creating user: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
+
 def authenticate_user(db: Session, email: EmailStr, password: str) -> User:
     """Authenticate a user.
-    
+
     Args:
         db (Session): The database session.
         email (EmailStr): The user email.
         password (str): The password.
-    
+
     Returns:
         User: The authenticated user.
     """
@@ -65,14 +73,15 @@ def authenticate_user(db: Session, email: EmailStr, password: str) -> User:
         logger.error(f"Error authenticating user: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
+
 def login_user(db: Session, email: EmailStr, password: str) -> dict:
     """Login a user.
-    
+
     Args:
         db (Session): The database session.
         email (EmailStr): The user email.
         password (str): The password.
-    
+
     Returns:
         dict: The access token and token type.
     """
@@ -91,16 +100,17 @@ def login_user(db: Session, email: EmailStr, password: str) -> dict:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
-
-def store_query_result(user, query_text: str, analysis_result: dict | list, db: Session) -> Query:
+def store_query_result(
+    user, query_text: str, analysis_result: dict | list, db: Session
+) -> Query:
     """Store a query result in the database.
-    
+
     Args:
         user (User | int): The User object or user ID.
         query_text (str): The executed SQL query.
         analysis_result (dict | list): The analysis result (converted to JSON).
         db (Session): The database session.
-    
+
     Returns:
         Query: The stored query object.
     """
@@ -115,15 +125,15 @@ def store_query_result(user, query_text: str, analysis_result: dict | list, db: 
         analysis_result_json = json.dumps(analysis_result)
 
         db_query = Query(
-            user_id=user_id, 
-            query_text=query_text, 
-            analysis_result=analysis_result_json  # ✅ Store JSON string
+            user_id=user_id,
+            query_text=query_text,
+            analysis_result=analysis_result_json,  # ✅ Store JSON string
         )
-        
+
         db.add(db_query)
         db.commit()
         db.refresh(db_query)
-        
+
         logger.info(f"Query successfully stored for user {user_id}")
         return db_query
 
@@ -134,11 +144,11 @@ def store_query_result(user, query_text: str, analysis_result: dict | list, db: 
 
 def get_user_queries(user_id: int, db: Session) -> list[Query]:
     """Get all queries for a user.
-    
+
     Args:
         user_id (int): The user ID.
         db (Session): The database session.
-    
+
     Returns:
         list[Query]: The list of queries.
     """
@@ -151,9 +161,7 @@ def get_user_queries(user_id: int, db: Session) -> list[Query]:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
-
-
-async def execute_sql(query:str, db: Session):
+async def execute_sql(query: str, db: Session):
     try:
         # Await the result of the asynchronous get_sql function
         result = await get_sql_query(query)  # Await here
@@ -179,4 +187,3 @@ async def execute_sql(query:str, db: Session):
     except Exception as e:
         logger.error(f"Error: {e}")
         raise HTTPException(status_code=400, detail=str(e))
-

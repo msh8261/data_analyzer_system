@@ -19,19 +19,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-
-KAFKA_BROKER=os.getenv("KAFKA_BROKER")
-KAFKA_TOPIC=os.getenv("KAFKA_TOPIC")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER")
+KAFKA_TOPIC = os.getenv("KAFKA_TOPIC")
 
 # Kafka Producer
 producer = KafkaProducer(
     bootstrap_servers=KAFKA_BROKER,
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
+    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
+
 
 def send_event(event: dict) -> None:
     """Send an event to Kafka.
-    
+
     Args:
         event (dict): The event data.
     """
@@ -42,13 +42,14 @@ def send_event(event: dict) -> None:
     except Exception as e:
         logger.error(f"Error sending event: {e}")
 
+
 def consume_events() -> None:
     """Consume events from Kafka."""
     try:
         consumer = KafkaConsumer(
             KAFKA_TOPIC,
             bootstrap_servers=KAFKA_BROKER,
-            value_deserializer=lambda v: json.loads(v.decode("utf-8"))
+            value_deserializer=lambda v: json.loads(v.decode("utf-8")),
         )
         for message in consumer:
             logger.info(f"Received event: {message.value}")

@@ -1,4 +1,3 @@
-
 db_info = """### Database Structure:
 
 ### Database Structure:

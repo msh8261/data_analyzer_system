@@ -13,27 +13,33 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional, List, Any
 from backend.log import logger
 
+
 class UserCreate(BaseModel):
     username: str
     email: EmailStr  # Ensure this field exists
     password: str
+
 
 class UserResponse(BaseModel):
     id: int
     username: str
 
     class Config:
-        from_attributes = True 
+        from_attributes = True
+
 
 class QueryRequest(BaseModel):
     query: str
 
+
 class ChartRequest(BaseModel):
     query: str
-    data: Any 
+    data: Any
+
 
 class QueryCreate(BaseModel):
     query: str
+
 
 class QueryResponse(BaseModel):
     id: int

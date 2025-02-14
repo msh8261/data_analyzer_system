@@ -1,5 +1,6 @@
 import os
 import sys
+
 # Get the absolute path of the current file
 current_file_path = os.path.abspath(__file__)
 # Get the directory path of the current file
@@ -23,6 +24,7 @@ router = APIRouter()
 model = os.getenv("GROQ_MODEL", "llama3-8b-8192")
 api_key = os.getenv("GROQ_API_KEY")
 
+
 async def groq_llm(prompt, temperature=0.1, max_tokens=256):
     """
     Generate a response using the Groq API asynchronously for better performance.
@@ -30,10 +32,10 @@ async def groq_llm(prompt, temperature=0.1, max_tokens=256):
     try:
         client = groq.Client(api_key=api_key)
         response = client.chat.completions.create(
-            model=model, 
+            model=model,
             temperature=temperature,
             max_tokens=max_tokens,
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{"role": "user", "content": prompt}],
         )
         if response.choices:
             result = response.choices[0].message.content.strip()

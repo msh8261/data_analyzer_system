@@ -17,26 +17,28 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-chromadb_database=os.getenv("chromadb_database")
+chromadb_database = os.getenv("chromadb_database")
 
 client = chromadb.PersistentClient()
 collection = client.get_or_create_collection(chromadb_database)
 
+
 def add_vector(id: str, vector: list) -> None:
     """Add a vector to the collection.
-    
+
     Args:
         id (str): The ID of the vector.
         vector (list): The vector data.
     """
     collection.add(id=id, embedding=vector)
 
+
 def query_vector(vector: list) -> list:
     """Query the collection for similar vectors.
-    
+
     Args:
         vector (list): The vector to query.
-    
+
     Returns:
         list: The top 10 similar vectors.
     """

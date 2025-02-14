@@ -12,6 +12,9 @@ This project is a scalable chatbot system built using modern technologies:
 - **Docker**: For containerizing the application.
 - **Kubernetes**: For orchestration and scaling.
 
+![Chatbot Screenshot](ui.png)
+
+
 ## Table of Contents
 
 - [Features](#features)
